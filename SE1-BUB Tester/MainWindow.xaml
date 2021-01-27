@@ -1,0 +1,85 @@
+﻿<Window x:Class="SE1_BUB_Tester.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SE1_BUB_Tester"
+        mc:Ignorable="d" Title="SE1-BUB Tester"  Background="AliceBlue"
+        Height="385" Width="450" MinHeight="385" MinWidth="450"
+        Loaded="Window_Loaded" Closing="Window_Closing" 
+        Icon="pack://application:,,,/Resources/RFID.ico"
+        >
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="19*"/>
+            <ColumnDefinition Width="101"/>
+            <ColumnDefinition Width="81"/>
+            <ColumnDefinition Width="33*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="26"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="28"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.Resources>
+            <Style x:Key="LblStyle" TargetType="Label">
+                <Setter Property="HorizontalAlignment" Value="Right" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="FontWeight" Value="Bold" />
+            </Style>
+            <Style x:Key="TxtStyle" TargetType="TextBox">
+                <Setter Property="HorizontalAlignment" Value="Left" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                <Setter Property="FontWeight" Value="Bold" />
+                <Setter Property="Width" Value="50" />
+                <Setter Property="Height" Value="26" />
+            </Style>
+            <Style x:Key="BtnStyle" TargetType="Button">
+                <Setter Property="FontWeight" Value="Bold" />
+                <Setter Property="Width" Value="70" />
+                <Setter Property="Height" Value="30" />
+                <Setter Property="HorizontalAlignment" Value="Left" />
+                <Setter Property="VerticalAlignment" Value="Top" />
+                <Setter Property="Margin" Value="0 5 0 0" />
+            </Style>
+        </Grid.Resources>
+
+        <Label Grid.Row="0" Grid.ColumnSpan="4" Content="SE1-BUB RFID Tester App" FontWeight="ExtraBold" FontSize="20" Foreground="Blue" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+
+        <Label Grid.Row="1" Grid.Column="0" Content="COM Port:" Style="{StaticResource LblStyle}" />
+        <Label Grid.Row="1" Grid.Column="2" Content="Baud Rate:" Style="{StaticResource LblStyle}" />
+        <Label Grid.Row="3" Grid.Column="0" Content="Trigger Mode:" Style="{StaticResource LblStyle}" />
+        <Label Grid.Row="4" Grid.Column="0" Content="Read (sec):" Style="{StaticResource LblStyle}" />
+
+        <TextBox Grid.Row="1" Grid.Column="1" x:Name="txtCOMPort" Style="{StaticResource TxtStyle}" Text="8" IsEnabled="{Binding ElementName=btnCOMStart,Path=IsEnabled}" />
+        <TextBox Grid.Row="1" Grid.Column="3" x:Name="txtBaudRate" Style="{StaticResource TxtStyle}" Width="70" Text="115200" IsEnabled="{Binding ElementName=btnCOMStart,Path=IsEnabled}" />
+
+        <Button Grid.Row="2" Grid.Column="1" x:Name="btnCOMStart" Content="Start COM" Style="{StaticResource BtnStyle}" Click="btnCOMStart_Click" />
+        <Button Grid.Row="2" Grid.Column="2" x:Name="btnCOMStop" Content="Stop COM" Style="{StaticResource BtnStyle}" IsEnabled="False" Click="btnCOMStop_Click" />
+        <Button Grid.Row="2" Grid.Column="3" x:Name="btnExit" Content="EXIT" Style="{StaticResource BtnStyle}" Margin="30,5,0,0" Click="btnExit_Click"/>
+
+        <WrapPanel Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" x:Name="wrapTrigger" VerticalAlignment="Center" IsEnabled="{Binding ElementName=btnCOMStop,Path=IsEnabled}" >
+            <RadioButton x:Name="rdoManual" Content="Manual Trigger" Margin="0,0,10,0" FontWeight="Bold" Checked="rdoManual_Checked" />
+            <RadioButton x:Name="rdoSoftware" Content="Software Trigger" FontWeight="Bold" Checked="rdoSoftware_Checked"/>
+        </WrapPanel>
+
+        <TextBox Grid.Row="4" Grid.Column="1" x:Name="txtDelay" Style="{StaticResource TxtStyle}" Text="0.35" IsEnabled="{Binding ElementName=btnReadStart,Path=IsEnabled}" Width="40" MaxLength="4"/>
+        <CheckBox Grid.Row="4" Grid.Column="1" x:Name="chkAuto" Content="Auto" VerticalAlignment="Center" Margin="50,0,0,0" IsEnabled="{Binding ElementName=rdoSoftware,Path=IsEnabled}"/>
+        <Button Grid.Row="4" Grid.Column="2" x:Name="btnReadStart" Content="Read" Style="{StaticResource BtnStyle}" Margin="0" IsEnabled="{Binding ElementName=rdoSoftware,Path=IsChecked}" Click="btnReadStart_Click"/>
+        <Button Grid.Row="4" Grid.Column="3" x:Name="btnReadClear" Content="Clear" Style="{StaticResource BtnStyle}" Margin="30,0,0,0" IsEnabled="{Binding ElementName=btnCOMStop,Path=IsEnabled}" Click="btnReadClear_Click"/>
+
+        <ListBox Grid.Row="6" Grid.ColumnSpan="4" x:Name="lst" Margin="5"/>
+
+        <StatusBar Grid.Row="7" Grid.ColumnSpan="4" >
+            <StatusBarItem>
+                <Label x:Name="lblStatus" Content="Status:-" Padding="5,0,0,0"/>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window>
